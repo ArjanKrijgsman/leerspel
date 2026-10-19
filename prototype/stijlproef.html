@@ -1,0 +1,423 @@
+<title>Leerspel stijlproef</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Grandstander:wght@600;800&family=Gaegu:wght@400;700&family=Figtree:wght@400;600;700&display=swap">
+<style>
+/* Layout: ouder-pagina (neutraal) met links een tablet-kader waarin het kinderspel draait; rechts uitleg over de gekozen stijl. */
+:root {
+  --page: #f3f2f7; --card: #ffffff; --text: #23212e; --muted: #626072; --line: #dddbe6; --accent: #5446c9;
+  --ui: 'Figtree', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --page: #17161d; --card: #22212b; --text: #ecebf3; --muted: #a3a1b3; --line: #383646; --accent: #a89dff; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --page: #17161d; --card: #22212b; --text: #ecebf3; --muted: #a3a1b3; --line: #383646; --accent: #a89dff; color-scheme: dark }
+body { background: var(--page); color: var(--text); font-family: var(--ui); font-size: 15px; line-height: 1.5; }
+.wrap { max-width: 1240px; margin: 0 auto; padding-block: 28px 48px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.top { display: flex; flex-wrap: wrap; gap: 16px 32px; align-items: end; justify-content: space-between; margin-bottom: 20px; }
+.top h1 { font-size: 26px; line-height: 1.15; margin: 0 0 4px; text-wrap: balance; letter-spacing: -0.01em; }
+.top p { margin: 0; color: var(--muted); max-width: 60ch; }
+.picker { display: flex; flex-wrap: wrap; gap: 8px; }
+.pick { font: 600 14px var(--ui); color: var(--text); background: var(--card); border: 1.5px solid var(--line);
+  border-radius: 999px; padding: 8px 14px 8px 10px; display: inline-flex; align-items: center; gap: 8px; cursor: pointer; }
+.pick[aria-pressed="true"] { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent) inset; }
+.pick:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.sw { display: inline-flex; }
+.sw i { width: 14px; height: 14px; border-radius: 50%; margin-left: -4px; border: 2px solid var(--card); display: block; }
+.sw i:first-child { margin-left: 0; }
+.layout { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 24px; align-items: start; }
+.info { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 20px; display: grid; gap: 14px; }
+.info h2 { margin: 0; font-size: 19px; }
+.info p { margin: 0; }
+.info dl { margin: 0; display: grid; gap: 10px; }
+.info dt { font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); font-weight: 700; }
+.info dd { margin: 2px 0 0; }
+.info .hint { font-size: 13px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 12px; }
+@media (max-width: 900px) { .layout { grid-template-columns: minmax(0, 1fr); } }
+
+/* ---------- Het spel-kader en de drie stijlen ---------- */
+.frame { --olw: 7; position: relative; width: 100%; aspect-ratio: 4 / 3; border-radius: 22px; overflow: hidden;
+  border: 10px solid #1d1c24; box-shadow: 0 18px 40px rgba(20, 18, 40, 0.18); background: var(--sky-home);
+  font-family: var(--font); color: var(--text-k); -webkit-tap-highlight-color: transparent; user-select: none; }
+@media (max-width: 640px) { .frame { aspect-ratio: auto; min-height: 640px; border-width: 6px; } }
+
+.frame[data-style="flat"] {
+  --font: 'Fredoka', 'Trebuchet MS', system-ui, sans-serif; --fw: 600;
+  --ink: #22223a; --wool: #ffffff; --dark: #3a3350; --white: #ffffff; --ye: #ffc93c; --or: #ff7a45; --pk: #ff5d8f;
+  --gr: #3cc76a; --br: #9a5b34; --ow: #7a5cff; --lt: #ece6ff;
+  --surface: #ffffff; --text-k: #22223a; --btn: #ffc93c; --btn-text: #22223a; --ok: #3cc76a;
+  --sky-home: #8fdcff; --sky-farm: #8fdcff; --ground-farm: #6ed36a; --sky-space: #2b2f77; --ground-space: #4144a8;
+  --sky-sea: #49c0f5; --ground-sea: #1f7fd1; --edge-a: 64%; --edge-b: 64%;
+  --r: 26px; --r-btn: 999px; --bd: 4px solid var(--ink); --sh: 0 5px 0 var(--ink); --tilt: 0deg;
+}
+.frame[data-style="papier"] {
+  --font: 'Grandstander', 'Trebuchet MS', system-ui, sans-serif; --fw: 800;
+  --ink: #3b2e22; --wool: #fbf6ea; --dark: #4a3b33; --white: #fffaf0; --ye: #f2b632; --or: #e8743b; --pk: #e3657a;
+  --gr: #6aa84f; --br: #8b5a3c; --ow: #4f8a8b; --lt: #f5e6c8;
+  --surface: #fffaf0; --text-k: #3b2e22; --btn: #e8743b; --btn-text: #fffaf0; --ok: #6aa84f;
+  --sky-home: #cfe3e2; --sky-farm: #c7e2e6; --ground-farm: #9cc77e; --sky-space: #3d4a6b; --ground-space: #5b6890;
+  --sky-sea: #8cc3d1; --ground-sea: #4d8fa6; --edge-a: 63%; --edge-b: 63%;
+  --r: 8px; --r-btn: 10px; --bd: 0 solid transparent; --sh: 3px 5px 0 rgba(70, 45, 20, 0.22); --tilt: -1.2deg;
+}
+.frame[data-style="krijt"] {
+  --font: 'Gaegu', 'Comic Sans MS', system-ui, sans-serif; --fw: 700;
+  --ink: #3d3a4a; --wool: #ffffff; --dark: #5b5470; --white: #ffffff; --ye: #f7d26b; --or: #f59f6b; --pk: #f29bb4;
+  --gr: #8cc98a; --br: #a77b5a; --ow: #9a8de0; --lt: #f3efff;
+  --surface: #fffdf8; --text-k: #3d3a4a; --btn: #fbe3a0; --btn-text: #3d3a4a; --ok: #8cc98a;
+  --sky-home: #fdf6ec; --sky-farm: #e3f1f7; --ground-farm: #cfe8bf; --sky-space: #4b4f86; --ground-space: #6c6aa6;
+  --sky-sea: #cbe7f2; --ground-sea: #93c6de; --edge-a: 52%; --edge-b: 72%;
+  --r: 255px 18px 225px 18px / 18px 225px 18px 255px; --r-btn: 255px 18px 225px 18px / 18px 225px 18px 255px;
+  --bd: 3px solid var(--ink); --sh: none; --tilt: 0deg;
+}
+
+/* Papierstructuur over het hele kader in papier- en krijtstijl */
+.frame::after { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0; mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' seed='4'/%3E%3CfeColorMatrix values='0 0 0 0 .45 0 0 0 0 .35 0 0 0 0 .25 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)'/%3E%3C/svg%3E"); }
+.frame[data-style="papier"]::after { opacity: 0.5; }
+.frame[data-style="krijt"]::after { opacity: 0.35; }
+
+.screen { position: absolute; inset: 0; display: flex; flex-direction: column; gap: 10px; padding: 14px 18px 18px;
+  background: linear-gradient(to bottom, var(--sky) 0 var(--edge-a), var(--ground) var(--edge-b) 100%); }
+.screen[data-world="home"] { --sky: var(--sky-home); --ground: var(--sky-home); }
+.screen[data-world="farm"] { --sky: var(--sky-farm); --ground: var(--ground-farm); }
+.screen[data-world="space"] { --sky: var(--sky-space); --ground: var(--ground-space); }
+.screen[data-world="sea"] { --sky: var(--sky-sea); --ground: var(--ground-sea); }
+.screen[data-world="space"]::before { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0.8;
+  background-image: radial-gradient(circle, #fff 1.2px, transparent 1.8px), radial-gradient(circle, #fff 1px, transparent 1.6px);
+  background-size: 90px 70px, 53px 61px; background-position: 10px 12px, 37px 29px; }
+.frame[data-style="krijt"] .screen[data-world="home"] {
+  background: radial-gradient(60% 50% at 20% 30%, #fde3d0 0, transparent 70%), radial-gradient(50% 45% at 85% 75%, #dbe9f7 0, transparent 70%), var(--sky-home); }
+
+/* knoppen en vlakken */
+.k-btn { font: var(--fw) 20px var(--font); color: var(--btn-text); background: var(--btn); border: var(--bd);
+  border-radius: var(--r-btn); box-shadow: var(--sh); padding: 8px 18px; cursor: pointer; transform: rotate(var(--tilt));
+  transition: transform 0.12s ease; display: inline-flex; align-items: center; gap: 8px; }
+.k-btn:active { transform: translateY(3px) rotate(var(--tilt)); }
+.k-btn:focus-visible, .item:focus-visible, .card:focus-visible, .pic:focus-visible { outline: 4px solid var(--ow); outline-offset: 3px; }
+.k-btn.ghost { background: var(--surface); color: var(--text-k); }
+.k-btn svg { width: 22px; height: 22px; }
+.surface { background: var(--surface); border: var(--bd); border-radius: var(--r); box-shadow: var(--sh); }
+
+.bar { position: relative; z-index: 2; display: flex; align-items: center; gap: 10px; min-height: 48px; }
+.bar .where { font-size: 24px; font-weight: var(--fw); color: var(--text-k); background: var(--surface); padding: 2px 14px;
+  border-radius: var(--r-btn); border: var(--bd); }
+.bar .grow { flex: 1; }
+.stickers { font-size: 22px; font-weight: var(--fw); display: inline-flex; align-items: center; gap: 6px; padding: 4px 14px 4px 8px; }
+.stickers svg { width: 30px; height: 30px; }
+
+.talk { position: relative; z-index: 2; display: flex; align-items: center; gap: 10px; }
+.owl { width: 84px; flex: none; }
+.bubble { margin: 0; font-size: 24px; line-height: 1.2; padding: 10px 18px; max-width: 34ch; position: relative; text-wrap: balance; }
+.frame[data-style="krijt"] .bubble { font-size: 27px; }
+.stage { position: relative; z-index: 1; flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 12px; }
+
+/* home + wereld */
+.cards { flex: 1; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; align-content: center; }
+.card { font: var(--fw) 26px var(--font); color: var(--text-k); cursor: pointer; display: grid; justify-items: center; gap: 4px;
+  padding: 14px 10px 16px; transform: rotate(var(--tilt)); }
+.card:nth-child(2) { transform: rotate(calc(var(--tilt) * -1.5)); }
+.card .art { width: min(120px, 70%); }
+.card .big { font-size: 56px; line-height: 1; letter-spacing: 0.06em; }
+.card small { font-size: 17px; opacity: 0.75; }
+.card[data-world="farm"] { background: linear-gradient(var(--surface) 60%, color-mix(in srgb, var(--ground-farm) 45%, var(--surface)) 60%); }
+.card[data-world="space"] { background: linear-gradient(var(--surface) 60%, color-mix(in srgb, var(--ground-space) 30%, var(--surface)) 60%); }
+.card[data-world="sea"] { background: linear-gradient(var(--surface) 60%, color-mix(in srgb, var(--ground-sea) 35%, var(--surface)) 60%); }
+
+/* tellen */
+.field { position: relative; flex: 1; min-height: 200px; }
+.item { position: absolute; width: clamp(58px, 15%, 118px); aspect-ratio: 1; padding: 0; border: 0; background: none; cursor: pointer; }
+.item .art { width: 100%; height: 100%; display: block; }
+.item.hop { animation: hop 0.4s ease; }
+.item .num { position: absolute; top: -8px; right: -6px; min-width: 38px; height: 38px; display: grid; place-items: center;
+  font: var(--fw) 24px var(--font); color: var(--text-k); background: var(--surface); border: var(--bd); border-radius: 50%;
+  box-shadow: var(--sh); }
+.item .num:empty { display: none; }
+@keyframes hop { 40% { transform: translateY(-14px) scale(1.06); } }
+.answers { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+.answers .k-btn { font-size: 40px; width: 82px; height: 82px; justify-content: center; padding: 0; }
+.frame[data-style="flat"] .answers .k-btn { border-radius: 50%; }
+.k-btn.nope { animation: nope 0.4s ease; opacity: 0.45; }
+.k-btn.yes { background: var(--ok); }
+@keyframes nope { 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+
+/* klanken */
+.klank { flex: 1; display: grid; grid-template-columns: auto 1fr; gap: 20px; align-items: center; }
+.letter { font: var(--fw) 96px/1 var(--font); width: 150px; height: 170px; display: grid; place-items: center; align-content: center;
+  color: var(--text-k); cursor: pointer; gap: 4px; }
+.letter span { font-size: 18px; display: inline-flex; gap: 6px; align-items: center; }
+.letter svg { width: 22px; height: 22px; }
+.pics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.pic { font: var(--fw) 22px var(--font); color: var(--text-k); cursor: pointer; display: grid; justify-items: center; gap: 2px; padding: 10px 6px 12px; }
+.pic .art { width: min(110px, 90%); }
+.pic.nope { animation: nope 0.4s ease; opacity: 0.5; }
+.pic.yes { background: color-mix(in srgb, var(--ok) 35%, var(--surface)); }
+@media (max-width: 640px) {
+  .klank { grid-template-columns: 1fr; justify-items: center; }
+  .letter { width: 130px; height: 140px; font-size: 80px; }
+  .owl { width: 64px; } .bubble { font-size: 20px; } .bar .where { font-size: 19px; }
+  .answers .k-btn { width: 68px; height: 68px; font-size: 32px; }
+}
+
+/* SVG-tekeningen: drie lagen (omlijning, kleur, schets) die per stijl anders getoond worden */
+.art .fl .wo { fill: var(--wool); } .art .fl .dk { fill: var(--dark); } .art .fl .wh { fill: var(--white); }
+.art .fl .ey { fill: var(--ink); } .art .fl .ye { fill: var(--ye); } .art .fl .or { fill: var(--or); }
+.art .fl .pk { fill: var(--pk); } .art .fl .gr { fill: var(--gr); } .art .fl .br { fill: var(--br); }
+.art .fl .ow { fill: var(--ow); } .art .fl .lt { fill: var(--lt); }
+.art .fl .ln { fill: none; stroke: var(--ink); stroke-width: 3; stroke-linecap: round; }
+.art .ol * { fill: var(--ink); stroke: var(--ink); stroke-width: var(--olw); stroke-linejoin: round; }
+.art .ol .ln, .art .sk { display: none; }
+.frame[data-style="papier"] .art .ol { transform: translate(3px, 4px); }
+.frame[data-style="papier"] .art .ol * { fill: rgba(70, 45, 20, 0.22); stroke: rgba(70, 45, 20, 0.22); stroke-width: 1; }
+.frame[data-style="papier"] .art .fl { filter: url(#cut); }
+.frame[data-style="krijt"] .art .ol { display: none; }
+.frame[data-style="krijt"] .art .fl { filter: url(#wash); opacity: 0.92; }
+.frame[data-style="krijt"] .art .sk { display: inline; filter: url(#wobble); }
+.frame[data-style="krijt"] .art .sk * { fill: none; stroke: var(--ink); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.frame[data-style="krijt"] .art .sk .ey { fill: var(--ink); stroke: none; }
+
+/* feestje */
+.spark { position: absolute; z-index: 5; width: 18px; height: 18px; pointer-events: none; border-radius: 4px;
+  animation: spark 0.9s ease-out forwards; }
+@keyframes spark { from { transform: translate(0, 0) rotate(0); opacity: 1; } to { transform: translate(var(--dx), var(--dy)) rotate(260deg); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .spark, .item.hop, .k-btn.nope, .pic.nope { animation: none; } }
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="cut"><feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="2" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="3.5"/></filter>
+  <filter id="wobble"><feTurbulence type="fractalNoise" baseFrequency="0.07" numOctaves="2" seed="7" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="4.5"/></filter>
+  <filter id="wash"><feTurbulence type="fractalNoise" baseFrequency="0.025" numOctaves="3" seed="2" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="8" result="d"/><feGaussianBlur in="d" stdDeviation="0.7"/></filter>
+</svg>
+
+<div class="wrap">
+  <div class="top">
+    <div>
+      <h1>Leerspel stijlproef</h1>
+      <p>Hetzelfde spel in drie stijlen. Speel het tel- of klankenspel en wissel ondertussen van stijl: het spel loopt gewoon door.</p>
+    </div>
+    <div class="picker" role="group" aria-label="Kies een stijl">
+      <button class="pick" id="pick-flat" data-style="flat" aria-pressed="true"><span class="sw"><i style="background:#ffc93c"></i><i style="background:#7a5cff"></i><i style="background:#3cc76a"></i></span>Vrolijk plat</button>
+      <button class="pick" id="pick-papier" data-style="papier" aria-pressed="false"><span class="sw"><i style="background:#e8743b"></i><i style="background:#4f8a8b"></i><i style="background:#f5e6c8"></i></span>Papier en knutsel</button>
+      <button class="pick" id="pick-krijt" data-style="krijt" aria-pressed="false"><span class="sw"><i style="background:#f29bb4"></i><i style="background:#9a8de0"></i><i style="background:#cbe7f2"></i></span>Prentenboek</button>
+    </div>
+  </div>
+
+  <div class="layout">
+    <div class="frame" id="frame" data-style="flat"><div class="screen" id="screen" data-world="home"></div></div>
+    <aside class="info" id="info" aria-live="polite"></aside>
+  </div>
+</div>
+
+<script>
+(function () {
+  const STYLES = {
+    flat: { naam: 'Vrolijk plat', zin: 'Heldere kleuren, dikke donkere lijnen en ronde vormen. Denk aan Duolingo ABC of Sago Mini.',
+      plus: 'Scherp en duidelijk op elk scherm. Makkelijk om alle plaatjes in dezelfde stijl te houden, ook als we later veel toevoegen.',
+      min: 'Kan wat standaard ogen; veel kinderapps zien er zo uit.' },
+    papier: { naam: 'Papier en knutsel', zin: 'Alsof alles uit gekleurd papier is geknipt en opgeplakt, met een zachte schaduw en papierstructuur.',
+      plus: 'Warm en rustig voor de ogen. Voelt eigen en past bij knutselen met echte schaar en lijm.',
+      min: 'Elke nieuwe tekening vraagt iets meer zorg om het geknipte effect goed te krijgen.' },
+    krijt: { naam: 'Prentenboek', zin: 'Waterverf met een getekend krijtlijntje en een handgeschreven letter, als een voorleesboek.',
+      plus: 'Zacht en vertrouwd, sluit aan bij prentenboeken. Ook zijn eigen tekeningen passen hier goed in.',
+      min: 'Iets minder strak; kleine details vallen minder op. Animaties zien er wat losser uit.' }
+  };
+
+  const L = (s) => '<svg viewBox="0 0 100 100" class="art" aria-hidden="true"><g class="ol">' + s + '</g><g class="fl">' + s + '</g><g class="sk">' + s + '</g></svg>';
+  const SHEEP = L('<rect class="dk" x="30" y="62" width="9" height="24" rx="4"/><rect class="dk" x="59" y="62" width="9" height="24" rx="4"/>' +
+    '<circle class="wo" cx="32" cy="52" r="16"/><circle class="wo" cx="48" cy="42" r="19"/><circle class="wo" cx="64" cy="50" r="17"/>' +
+    '<circle class="wo" cx="46" cy="62" r="17"/><circle class="wo" cx="26" cy="62" r="11"/><circle class="wo" cx="68" cy="62" r="12"/>' +
+    '<ellipse class="dk" cx="80" cy="46" rx="12" ry="14"/><ellipse class="dk" cx="72" cy="36" rx="8" ry="4" transform="rotate(-25 72 36)"/>' +
+    '<circle class="wh" cx="84" cy="43" r="4"/><circle class="ey" cx="85" cy="43" r="2"/>');
+  const STAR = L('<polygon class="ye" points="50,10 61.2,36.6 89.9,39 68.1,57.9 74.7,86 50,71 25.3,86 31.9,57.9 10.1,39 38.8,36.6"/>' +
+    '<circle class="pk" cx="37" cy="56" r="4"/><circle class="pk" cx="63" cy="56" r="4"/>' +
+    '<circle class="ey" cx="43" cy="48" r="3.4"/><circle class="ey" cx="57" cy="48" r="3.4"/><path class="ln" d="M44 57 Q50 63 56 57"/>');
+  const FISH = L('<polygon class="pk" points="6,28 30,50 6,72"/><path class="pk" d="M46 30 Q56 12 70 30 Z"/>' +
+    '<ellipse class="or" cx="55" cy="50" rx="34" ry="23"/><path class="ln" d="M44 34 Q38 50 44 66"/>' +
+    '<circle class="wh" cx="74" cy="45" r="7"/><circle class="ey" cx="76" cy="45" r="3.5"/><path class="ln" d="M86 57 Q82 60 78 57"/>');
+  const MOON = L('<path class="ye" d="M60 10 A40 40 0 1 0 90 70 A32 32 0 1 1 60 10 Z"/><circle class="pk" cx="40" cy="66" r="4"/>' +
+    '<path class="ln" d="M33 54 Q38 58 43 54"/><path class="ln" d="M38 72 Q44 76 50 71"/>');
+  const TREE = L('<rect class="br" x="42" y="56" width="16" height="36" rx="3"/><circle class="gr" cx="50" cy="36" r="25"/>' +
+    '<circle class="gr" cx="30" cy="52" r="16"/><circle class="gr" cx="70" cy="52" r="16"/><circle class="pk" cx="40" cy="30" r="4"/><circle class="pk" cx="62" cy="44" r="4"/>');
+  const OWL = L('<polygon class="ow" points="20,34 26,8 42,26"/><polygon class="ow" points="80,34 74,8 58,26"/>' +
+    '<ellipse class="ow" cx="50" cy="58" rx="33" ry="36"/><ellipse class="lt" cx="50" cy="68" rx="20" ry="22"/>' +
+    '<circle class="wh" cx="37" cy="42" r="12"/><circle class="wh" cx="63" cy="42" r="12"/>' +
+    '<circle class="ey" cx="39" cy="43" r="5.5"/><circle class="ey" cx="61" cy="43" r="5.5"/><polygon class="ye" points="45,52 55,52 50,61"/>' +
+    '<ellipse class="ye" cx="40" cy="94" rx="7" ry="4"/><ellipse class="ye" cx="60" cy="94" rx="7" ry="4"/>');
+  const STICKER = L('<polygon class="ye" points="50,10 61.2,36.6 89.9,39 68.1,57.9 74.7,86 50,71 25.3,86 31.9,57.9 10.1,39 38.8,36.6"/>');
+  const SPEAKER = '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6h4l5 4V5L8 9z" fill="currentColor"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/><path d="M19 6a8.5 8.5 0 0 1 0 12"/></svg>';
+  const MUTE = '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6h4l5 4V5L8 9z" fill="currentColor"/><path d="M17 9l5 6M22 9l-5 6"/></svg>';
+  const BACK = '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>';
+
+  const WORLDS = {
+    farm: { naam: 'Boerderij', een: 'schaapje', meer: 'schaapjes', art: SHEEP },
+    space: { naam: 'Ruimte', een: 'ster', meer: 'sterren', art: STAR },
+    sea: { naam: 'Onder water', een: 'visje', meer: 'visjes', art: FISH }
+  };
+  const PICS = {
+    maan: { art: MOON, letter: 'm', klank: 'mmm' },
+    vis: { art: FISH, letter: 'v', klank: 'vvv' },
+    boom: { art: TREE, letter: 'b', klank: 'buh' }
+  };
+  const SLOTS = [[6, 6], [28, 2], [50, 9], [72, 3], [12, 46], [36, 42], [60, 50], [82, 40]];
+
+  const frame = document.getElementById('frame');
+  const screen = document.getElementById('screen');
+  const info = document.getElementById('info');
+  const st = { screen: 'home', world: null, stickers: 0, voice: true, tel: null, klank: null, klankIdx: 0 };
+
+  function say(t) {
+    if (!st.voice || !('speechSynthesis' in window)) return;
+    try {
+      speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(t);
+      u.lang = 'nl-NL'; u.rate = 0.9; u.pitch = 1.15;
+      const v = speechSynthesis.getVoices().find((x) => x.lang && x.lang.toLowerCase().startsWith('nl'));
+      if (v) u.voice = v;
+      speechSynthesis.speak(u);
+    } catch (e) { /* geen stem beschikbaar */ }
+  }
+  const shuffle = (a) => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+
+  function setStyle(s) {
+    frame.dataset.style = s;
+    document.querySelectorAll('.pick').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.style === s)));
+    const d = STYLES[s];
+    info.innerHTML = '<h2>' + d.naam + '</h2><p>' + d.zin + '</p><dl><div><dt>Voordeel</dt><dd>' + d.plus + '</dd></div>' +
+      '<div><dt>Nadeel</dt><dd>' + d.min + '</dd></div></dl>' +
+      '<p class="hint">Dit is een eerste schets: kleuren, letter en tekeningen zijn nog aan te passen. Een vierde optie is dat je zoon zelf de figuren tekent; die kunnen we in elk van deze stijlen inpassen.</p>';
+    try { localStorage.setItem('stijlproef-stijl', s); } catch (e) { /* niet erg */ }
+  }
+
+  function bar(title) {
+    const back = st.screen === 'home' ? '' : '<button class="k-btn ghost" data-act="back" aria-label="Terug">' + BACK + '</button>';
+    const where = title ? '<span class="where">' + title + '</span>' : '';
+    return '<div class="bar">' + back + where + '<span class="grow"></span>' +
+      '<button class="k-btn ghost" data-act="voice" aria-label="' + (st.voice ? 'Stem uitzetten' : 'Stem aanzetten') + '">' + (st.voice ? SPEAKER : MUTE) + '</button>' +
+      '<span class="stickers surface" aria-label="' + st.stickers + ' stickers">' + STICKER + st.stickers + '</span></div>';
+  }
+  const talk = (t) => '<div class="talk"><div class="owl">' + OWL + '</div><p class="bubble surface" id="bubble">' + t + '</p></div>';
+  function setBubble(t) { const b = document.getElementById('bubble'); if (b) b.textContent = t; say(t); }
+
+  function render() {
+    const w = st.world ? WORLDS[st.world] : null;
+    screen.dataset.world = st.world || 'home';
+    let html = '';
+    if (st.screen === 'home') {
+      html = bar('') + talk('Hoi! Ik ben Olli. Waar gaan we vandaag naartoe?') +
+        '<div class="stage"><div class="cards">' + Object.keys(WORLDS).map((k) =>
+          '<button class="card surface" data-world="' + k + '" data-act="world">' + WORLDS[k].art + WORLDS[k].naam + '</button>').join('') + '</div></div>';
+    } else if (st.screen === 'world') {
+      html = bar(w.naam) + talk('Wat gaan we doen?') +
+        '<div class="stage"><div class="cards">' +
+        '<button class="card surface" data-act="tel"><span class="big">1 2 3</span>Tellen<small>Hoeveel ' + w.meer + '?</small></button>' +
+        '<button class="card surface" data-act="klank"><span class="big">m v b</span>Klanken<small>Waar begint het mee?</small></button>' +
+        '</div></div>';
+    } else if (st.screen === 'tel') {
+      const t = st.tel;
+      html = bar(w.naam) + talk(t.msg) + '<div class="stage"><div class="field">' +
+        t.pos.map((p, i) => '<button class="item" data-act="count" data-i="' + i + '" style="left:' + p[0] + '%;top:' + p[1] + '%" aria-label="' + w.een + '">' +
+          w.art + '<span class="num">' + (t.nums[i] || '') + '</span></button>').join('') +
+        '</div><div class="answers">' + (t.done
+          ? '<button class="k-btn" data-act="tel" style="font-size:26px;width:auto;height:auto;padding:12px 26px">Nog een keer</button>'
+          : t.opts.map((o) => '<button class="k-btn' + (t.wrong.includes(o) ? ' nope' : '') + '" data-act="answer" data-n="' + o + '">' + o + '</button>').join('')) +
+        '</div></div>';
+    } else if (st.screen === 'klank') {
+      const k = st.klank, p = PICS[k.doel];
+      html = bar(w.naam) + talk(k.msg) + '<div class="stage"><div class="klank">' +
+        '<button class="letter surface" data-act="hear" aria-label="Luister naar de klank">' + p.letter + '<span>' + SPEAKER + 'luister</span></button>' +
+        '<div class="pics">' + k.opts.map((o) => '<button class="pic surface' + (k.wrong.includes(o) ? ' nope' : '') + (k.done && o === k.doel ? ' yes' : '') +
+          '" data-act="pick" data-o="' + o + '">' + PICS[o].art + o + '</button>').join('') + '</div></div>' +
+        (k.done ? '<div class="answers"><button class="k-btn" data-act="klank" style="font-size:26px;padding:12px 26px">Volgende</button></div>' : '') +
+        '</div>';
+    }
+    screen.innerHTML = html;
+  }
+
+  function newTel() {
+    const n = 2 + Math.floor(Math.random() * 5);
+    const pos = shuffle(SLOTS).slice(0, n).map((p) => [p[0] + Math.random() * 5 - 2.5, p[1] + Math.random() * 6 - 3]);
+    const pool = shuffle([n - 2, n - 1, n + 1, n + 2].filter((x) => x >= 1 && x <= 9)).slice(0, 2);
+    st.tel = { n, pos, nums: [], count: 0, opts: [n].concat(pool).sort((a, b) => a - b), wrong: [], done: false,
+      msg: 'Hoeveel ' + WORLDS[st.world].meer + ' zie je? Tik ze aan en tel mee.' };
+  }
+  function newKlank() {
+    const keys = Object.keys(PICS);
+    const doel = keys[st.klankIdx % keys.length];
+    st.klankIdx++;
+    st.klank = { doel, opts: shuffle(keys), wrong: [], done: false, msg: 'Welk plaatje begint met ' + PICS[doel].klank + '?' };
+  }
+
+  function burst(x, y) {
+    const cols = ['--ye', '--pk', '--gr', '--ow', '--or'];
+    const r = frame.getBoundingClientRect();
+    for (let i = 0; i < 16; i++) {
+      const s = document.createElement('span');
+      s.className = 'spark';
+      const a = (i / 16) * Math.PI * 2;
+      s.style.left = (x - r.left) + 'px'; s.style.top = (y - r.top) + 'px';
+      s.style.background = 'var(' + cols[i % cols.length] + ')';
+      s.style.setProperty('--dx', Math.cos(a) * (90 + Math.random() * 60) + 'px');
+      s.style.setProperty('--dy', Math.sin(a) * (90 + Math.random() * 60) + 'px');
+      if (i % 2) s.style.borderRadius = '50%';
+      frame.appendChild(s);
+      setTimeout(() => s.remove(), 950);
+    }
+  }
+
+  screen.addEventListener('click', (e) => {
+    const b = e.target.closest('[data-act]');
+    if (!b) return;
+    const act = b.dataset.act;
+    if (act === 'voice') { st.voice = !st.voice; if (!st.voice && 'speechSynthesis' in window) speechSynthesis.cancel(); render(); return; }
+    if (act === 'back') { st.screen = st.screen === 'world' ? 'home' : 'world'; if (st.screen === 'home') st.world = null; render(); return; }
+    if (act === 'world') { st.world = b.dataset.world; st.screen = 'world'; render(); say('Wat gaan we doen?'); return; }
+    if (act === 'tel') { newTel(); st.screen = 'tel'; render(); say(st.tel.msg); return; }
+    if (act === 'klank') { newKlank(); st.screen = 'klank'; render(); say(st.klank.msg); return; }
+    if (act === 'count') {
+      const t = st.tel, i = +b.dataset.i;
+      if (t.done) return;
+      if (!t.nums[i]) { t.count++; t.nums[i] = t.count; b.querySelector('.num').textContent = t.count; say(String(t.count)); }
+      b.classList.remove('hop'); void b.offsetWidth; b.classList.add('hop');
+      return;
+    }
+    if (act === 'answer') {
+      const t = st.tel, k = +b.dataset.n, w = WORLDS[st.world];
+      if (k === t.n) {
+        t.done = true; st.stickers++;
+        t.msg = 'Goed zo! Het zijn er ' + t.n + '. Je krijgt een sticker!';
+        const r = b.getBoundingClientRect();
+        render(); say(t.msg); burst(r.left + r.width / 2, r.top + r.height / 2);
+      } else {
+        if (!t.wrong.includes(k)) t.wrong.push(k);
+        t.msg = t.count < t.n ? 'Bijna! Tik de ' + w.meer + ' een voor een aan en tel hardop mee.' : 'Bijna! Kijk nog eens naar het laatste getal dat je telde.';
+        render(); say(t.msg);
+      }
+      return;
+    }
+    if (act === 'hear') { say(PICS[st.klank.doel].klank); return; }
+    if (act === 'pick') {
+      const k = st.klank, o = b.dataset.o;
+      if (k.done) return;
+      if (o === k.doel) {
+        k.done = true; st.stickers++;
+        k.msg = 'Ja! ' + o.charAt(0).toUpperCase() + o.slice(1) + ' begint met ' + PICS[o].klank + '.';
+        const r = b.getBoundingClientRect();
+        render(); say(k.msg); burst(r.left + r.width / 2, r.top + r.height / 2);
+      } else {
+        if (!k.wrong.includes(o)) k.wrong.push(o);
+        k.msg = 'Dat is een ' + o + '. Luister nog eens: ' + PICS[k.doel].klank + '.';
+        render(); say(k.msg);
+      }
+    }
+  });
+
+  document.querySelectorAll('.pick').forEach((b) => b.addEventListener('click', () => setStyle(b.dataset.style)));
+  if ('speechSynthesis' in window) { try { speechSynthesis.getVoices(); } catch (e) {} }
+
+  let start = 'flat';
+  try { const s = localStorage.getItem('stijlproef-stijl'); if (s && STYLES[s]) start = s; } catch (e) {}
+  setStyle(start);
+  render();
+})();
+</script>
